@@ -24,6 +24,12 @@ authRouter.post(
     console.info(
       JSON.stringify({
         event: 'session_attempt',
+        bodyType: typeof request.body,
+        bodyKeys:
+          request.body && typeof request.body === 'object'
+            ? Object.keys(request.body)
+            : null,
+        contentType: request.header('content-type') ?? null,
         pinReceived: typeof pin === 'string',
         pinLength: typeof pin === 'string' ? pin.length : null,
         pinConfigured: Boolean(process.env.HOUSEHOLD_PIN),
