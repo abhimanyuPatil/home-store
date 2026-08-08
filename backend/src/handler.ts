@@ -1,20 +1,22 @@
 import serverless from 'serverless-http';
-import type { APIGatewayProxyEventV2 } from 'aws-lambda';
+
 import { createApp } from './app.js';
 import { validateProductionConfig } from './shared/config.js';
-import type { Request } from 'express';
 
 validateProductionConfig();
 const app = createApp();
 
-export const handler = serverless(app, {
-    request: (req: Request, event: APIGatewayProxyEventV2) => {
-      if (event.body && typeof event.body === 'string') {
-        try {
-          req.body = JSON.parse(event.body);
-        } catch {
-          req.body = {};
-        }
-      }
-    },
-  });
+export const handler = (event: any, context: any) => {
+  console.info(
+    JSON.stringify({
+      event: 'lambda_raw',
+      isBase64Encoded: event.isBase64Encoded,
+      bodyType: typeof event.body,
+      body: event.body,
+      contentType:
+        event.headers?.['content-type'] ?? event.headers?.['Content-Type'],
+    }),
+  );
+
+  return serverless(app)(event, context);
+};

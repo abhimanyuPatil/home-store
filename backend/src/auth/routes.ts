@@ -21,10 +21,12 @@ authRouter.post(
   createRateLimiter(windowMs, maxAttempts),
   asyncRoute(async (request, response) => {
     const pin = request.body?.pin;
+    
     console.info(
       JSON.stringify({
         event: 'session_attempt',
         bodyType: typeof request.body,
+        body: request.body,
         bodyKeys:
           request.body && typeof request.body === 'object'
             ? Object.keys(request.body)
