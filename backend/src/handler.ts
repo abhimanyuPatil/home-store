@@ -2,11 +2,12 @@ import serverless from 'serverless-http';
 
 import { createApp } from './app.js';
 import { validateProductionConfig } from './shared/config.js';
+import { APIGatewayProxyEvent, Context } from 'aws-lambda';
 
 validateProductionConfig();
 const app = createApp();
 
-export const handler = (event: any, context: any) => {
+export const handler = (event: APIGatewayProxyEvent, context: Context) => {
   console.info(
     JSON.stringify({
       event: 'lambda_raw',
