@@ -21,6 +21,14 @@ authRouter.post(
   createRateLimiter(windowMs, maxAttempts),
   asyncRoute(async (request, response) => {
     const pin = request.body?.pin;
+    console.info(
+      JSON.stringify({
+        event: 'session_attempt',
+        pinReceived: typeof pin === 'string',
+        pinLength: typeof pin === 'string' ? pin.length : null,
+        pinConfigured: Boolean(process.env.HOUSEHOLD_PIN),
+      }),
+    );
     if (typeof pin !== 'string' || !verifyPin(pin)) {
       throw unauthorized('The PIN is invalid.');
     }
