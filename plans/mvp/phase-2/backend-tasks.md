@@ -2,6 +2,8 @@
 
 ## B1. Implement supply domain and primary assignment operations
 
+**Status: Implemented**
+
 ### Objective
 
 Implement supply creation and editing with exactly one valid primary assignment.
@@ -33,6 +35,8 @@ Implement supply creation and editing with exactly one valid primary assignment.
 
 ## B2. Implement primary quantity updates
 
+**Status: Implemented**
+
 ### Objective
 
 Provide independent latest-quantity updates for the primary assignment.
@@ -59,6 +63,8 @@ Provide independent latest-quantity updates for the primary assignment.
 - B1.
 
 ## B3. Implement primary inventory queries
+
+**Status: Implemented**
 
 ### Objective
 
@@ -90,6 +96,8 @@ Implement the primary inventory list and all Phase 2 search/filter behavior.
 - B2.
 
 ## B4. Add Phase 2 API and domain tests
+
+**Status: Implemented**
 
 ### Objective
 

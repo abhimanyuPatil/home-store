@@ -2,6 +2,8 @@
 
 ## B1. Implement optional backup assignments
 
+**Status: Implemented**
+
 ### Objective
 
 Support one optional backup assignment with an independent latest quantity.
@@ -33,6 +35,8 @@ Support one optional backup assignment with an independent latest quantity.
 
 ## B2. Implement backup and out-of-stock inventory queries
 
+**Status: Implemented**
+
 ### Objective
 
 Complete separate backup and out-of-stock inventory behavior.
@@ -62,6 +66,8 @@ Complete separate backup and out-of-stock inventory behavior.
 
 ## B3. Implement affected-assignment discovery
 
+**Status: Implemented**
+
 ### Objective
 
 Provide the data needed for the frontend reassignment workflow before a location or subsection is deleted.
@@ -89,6 +95,8 @@ Provide the data needed for the frontend reassignment workflow before a location
 - B1.
 
 ## B4. Implement atomic reassignment-and-delete workflows
+
+**Status: Implemented**
 
 ### Objective
 
@@ -122,6 +130,8 @@ Complete location and subsection deletion only when all affected assignments hav
 
 ## B5. Add release hardening and observability
 
+**Status: Implemented**
+
 ### Objective
 
 Make the API operationally ready for the MVP deployment.
@@ -152,6 +162,8 @@ Make the API operationally ready for the MVP deployment.
 - Phase 3 B1 through B4.
 
 ## B6. Complete backend integration and end-to-end tests
+
+**Status: Implemented**
 
 ### Objective
 

@@ -2,6 +2,8 @@
 
 ## F1. Build supply create/edit workflows
 
+**Status: Implemented**
+
 ### Objective
 
 Allow users to create and edit supplies with a primary assignment.
@@ -31,6 +33,8 @@ Allow users to create and edit supplies with a primary assignment.
 
 ## F2. Build primary inventory view
 
+**Status: Implemented**
+
 ### Objective
 
 Display all supplies using their primary assignment and latest quantity.
@@ -59,6 +63,8 @@ Display all supplies using their primary assignment and latest quantity.
 - Phase 2 B3.
 
 ## F3. Add primary search and filters
+
+**Status: Implemented**
 
 ### Objective
 
@@ -90,6 +96,8 @@ Provide the primary inventory discovery behavior.
 
 ## F4. Add quantity update and supply deletion flows
 
+**Status: Implemented**
+
 ### Objective
 
 Make the common stock update and supply deletion journeys available from the primary inventory experience.
@@ -118,6 +126,8 @@ Make the common stock update and supply deletion journeys available from the pri
 - Phase 2 B2.
 
 ## F5. Add Phase 2 frontend tests
+
+**Status: Implemented**
 
 ### Objective
 

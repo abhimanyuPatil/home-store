@@ -2,6 +2,8 @@
 
 ## F1. Create the React/TypeScript PWA foundation
 
+**Status: Implemented**
+
 ### Objective
 
 Create the separate frontend repository and establish the responsive, installable React application shell.
@@ -31,6 +33,8 @@ Create the separate frontend repository and establish the responsive, installabl
 None; coordinate API base URL with B2.
 
 ## F2. Implement API client and session state
+
+**Status: Implemented**
 
 ### Objective
 
@@ -62,6 +66,8 @@ Provide a single frontend boundary for authenticated REST calls and the shared-p
 
 ## F3. Build shared application states and navigation
 
+**Status: Implemented**
+
 ### Objective
 
 Create the authenticated application shell and reusable loading, empty, error, confirmation, and form-feedback states.
@@ -90,6 +96,8 @@ Create the authenticated application shell and reusable loading, empty, error, c
 - F2.
 
 ## F4. Implement storage management UI
+
+**Status: Implemented**
 
 ### Objective
 
@@ -123,6 +131,8 @@ Allow the user to create, view, and rename locations and subsections.
 - B6.
 
 ## F5. Add frontend checks and CI
+
+**Status: Implemented**
 
 ### Objective
 

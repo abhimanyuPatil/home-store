@@ -2,6 +2,8 @@
 
 ## F1. Add backup assignment controls
 
+**Status: Implemented**
+
 ### Objective
 
 Allow users to create, edit, remove, and update the optional backup assignment.
@@ -33,6 +35,8 @@ Allow users to create, edit, remove, and update the optional backup assignment.
 
 ## F2. Build backup inventory view
 
+**Status: Implemented**
+
 ### Objective
 
 Provide the separate backup tab/screen required by the product design.
@@ -63,6 +67,8 @@ Provide the separate backup tab/screen required by the product design.
 
 ## F3. Build out-of-stock view
 
+**Status: Implemented**
+
 ### Objective
 
 Provide the separate out-of-stock tab/screen based on both available quantities.
@@ -90,6 +96,8 @@ Provide the separate out-of-stock tab/screen based on both available quantities.
 - Phase 3 B2.
 
 ## F4. Build reassignment deletion workflow
+
+**Status: Implemented**
 
 ### Objective
 
@@ -121,6 +129,8 @@ Allow users to delete locations/subsections by assigning valid replacements for 
 - Phase 3 B3 and B4.
 
 ## F5. Complete PWA and release quality
+
+**Status: Implemented**
 
 ### Objective
 

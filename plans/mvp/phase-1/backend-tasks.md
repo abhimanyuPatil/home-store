@@ -33,6 +33,8 @@ None.
 
 ## B2. Configure local and deployed execution
 
+**Status: Implemented**
+
 ### Objective
 
 Make the API runnable with local PostgreSQL and serverless-offline, and packageable for AWS Lambda behind an API Gateway HTTP API.
@@ -62,6 +64,8 @@ Make the API runnable with local PostgreSQL and serverless-offline, and packagea
 - B1.
 
 ## B3. Implement PostgreSQL schema and migrations
+
+**Status: Implemented**
 
 ### Objective
 
@@ -96,6 +100,8 @@ Create the relational persistence model required by the finalized product and fu
 
 ## B4. Add shared API behavior
 
+**Status: Implemented**
+
 ### Objective
 
 Establish consistent request parsing, validation errors, authentication errors, conflict errors, not-found errors, and unexpected-error handling.
@@ -122,6 +128,8 @@ Establish consistent request parsing, validation errors, authentication errors, 
 - B1.
 
 ## B5. Implement shared-passphrase JWT sessions
+
+**Status: Implemented**
 
 ### Objective
 
@@ -156,6 +164,8 @@ Protect the API with the confirmed shared-passphrase access gate and one-day sig
 
 ## B6. Implement storage location and subsection APIs
 
+**Status: Implemented**
+
 ### Objective
 
 Implement storage hierarchy CRUD needed by the Phase 1 UI.
@@ -187,6 +197,8 @@ Implement storage hierarchy CRUD needed by the Phase 1 UI.
 - B5.
 
 ## B7. Add Phase 1 tests and CI checks
+
+**Status: Implemented**
 
 ### Objective
 
