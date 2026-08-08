@@ -4,7 +4,7 @@ export const validateProductionConfig = (): void => {
   const required = [
     'DATABASE_URL',
     'JWT_SECRET',
-    'HOUSEHOLD_PASSPHRASE_HASH',
+    'HOUSEHOLD_PIN',
     'ALLOWED_ORIGINS',
   ];
   const missing = required.filter((name) => !process.env[name]);
@@ -12,5 +12,8 @@ export const validateProductionConfig = (): void => {
     throw new Error(
       `Missing required production configuration: ${missing.join(', ')}`,
     );
+  }
+  if (!/^\d{4}$/.test(process.env.HOUSEHOLD_PIN ?? '')) {
+    throw new Error('HOUSEHOLD_PIN must contain exactly four digits.');
   }
 };

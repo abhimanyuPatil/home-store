@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
 import { createToken } from './jwt.js';
-import { verifyPassphrase } from './passphrase.js';
+import { verifyPin } from './passphrase.js';
 import { asyncRoute, unauthorized } from '../shared/errors.js';
 import { createRateLimiter } from '../shared/rate-limit.js';
 
@@ -20,9 +20,9 @@ authRouter.post(
   '/session',
   createRateLimiter(windowMs, maxAttempts),
   asyncRoute(async (request, response) => {
-    const passphrase = request.body?.passphrase;
-    if (typeof passphrase !== 'string' || !verifyPassphrase(passphrase)) {
-      throw unauthorized('The passphrase is invalid.');
+    const pin = request.body?.pin;
+    if (typeof pin !== 'string' || !verifyPin(pin)) {
+      throw unauthorized('The PIN is invalid.');
     }
 
     const expiresAt = new Date(Date.now() + 86_400_000).toISOString();

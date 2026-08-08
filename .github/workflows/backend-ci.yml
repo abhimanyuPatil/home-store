@@ -31,7 +31,7 @@ jobs:
     env:
       DATABASE_URL: postgresql://postgres:postgres@localhost:5432/home_store
       JWT_SECRET: ci-only-jwt-secret-that-is-long-enough
-      HOUSEHOLD_PASSPHRASE: ci-passphrase
+      HOUSEHOLD_PIN: '1234'
       ALLOWED_ORIGINS: http://localhost:5173
     defaults:
       run:
@@ -61,6 +61,7 @@ jobs:
       NODE_ENV: production
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
       JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      HOUSEHOLD_PIN: ${{ secrets.HOUSEHOLD_PIN }}
       FRONTEND_ORIGIN: ${{ secrets.FRONTEND_ORIGIN }}
       ALLOWED_ORIGINS: ${{ secrets.FRONTEND_ORIGIN }}
       SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
@@ -79,30 +80,15 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: ap-south-1
       - run: npm ci --include=dev
-      - name: Generate production passphrase hash
-        env:
-          HOUSEHOLD_PASSPHRASE: ${{ secrets.HOUSEHOLD_PASSPHRASE }}
+      - name: Validate production PIN configuration
         shell: bash
         run: |
-          if [[ -z "${HOUSEHOLD_PASSPHRASE}" ]]; then
-            echo "HOUSEHOLD_PASSPHRASE is not configured."
+          if [[ -z "${HOUSEHOLD_PIN}" ]]; then
+            echo "HOUSEHOLD_PIN is not configured."
             exit 1
           fi
-          generated_hash="$(node --import tsx --input-type=module -e '
-            import { hashPassphrase } from "./src/auth/passphrase.ts";
-            process.stdout.write(hashPassphrase(process.env.HOUSEHOLD_PASSPHRASE));
-          ')"
-          echo "::add-mask::${generated_hash}"
-          echo "HOUSEHOLD_PASSPHRASE_HASH=${generated_hash}" >> "${GITHUB_ENV}"
-      - name: Validate production passphrase configuration
-        shell: bash
-        run: |
-          if [[ -z "${HOUSEHOLD_PASSPHRASE_HASH}" ]]; then
-            echo "HOUSEHOLD_PASSPHRASE_HASH is not configured."
-            exit 1
-          fi
-          if [[ ! "${HOUSEHOLD_PASSPHRASE_HASH}" =~ ^scrypt\$[^$]+\$[^$]+$ ]]; then
-            echo "HOUSEHOLD_PASSPHRASE_HASH is not a valid scrypt hash format."
+          if [[ ! "${HOUSEHOLD_PIN}" =~ ^[0-9]{4}$ ]]; then
+            echo "HOUSEHOLD_PIN must contain exactly four digits."
             exit 1
           fi
       - run: node --import tsx src/persistence/migrate-cli.ts
