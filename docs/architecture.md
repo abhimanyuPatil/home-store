@@ -46,18 +46,18 @@ The frontend origin is restricted through CORS configuration. The API must not t
 
 ## Authentication and Security
 
-### Shared passphrase session
+### Shared PIN session
 
-The MVP has no user accounts. A shared household passphrase is entered into the PWA and sent only over HTTPS to the session endpoint. The backend compares it with a securely stored hash or secret-derived verifier and returns a signed JWT when valid.
+The MVP has no user accounts. A shared four-digit household PIN is entered into the PWA and sent only over HTTPS to the session endpoint. The backend compares it with its configured PIN and returns a signed JWT when valid.
 
-The JWT expires after one day. The PWA persists the JWT locally so a refresh does not require re-entry. The passphrase is never stored locally. When the JWT expires, the PWA clears it and requires the passphrase again.
+The JWT expires after one day. The PWA persists the JWT locally so a refresh does not require re-entry. The PIN is never stored locally. When the JWT expires, the PWA clears it and requires the PIN again.
 
-The shared passphrase is an access gate, not a multi-user identity system. Anyone who knows it can access the inventory. The backend must support passphrase rotation by changing the configured verifier and, where applicable, the JWT signing secret.
+The shared PIN is an access gate, not a multi-user identity system. Anyone who knows it can access the inventory. PIN rotation requires changing the configured backend PIN; changing the JWT signing secret is a separate operation.
 
 ### Required protections
 
 - HTTPS for deployed frontend and API traffic.
-- Secure handling of the passphrase and JWT signing secret through deployment secrets.
+- Secure handling of the PIN and JWT signing secret through deployment secrets.
 - Rate limiting on the session endpoint to reduce guessing attempts.
 - No secrets in frontend build variables; frontend configuration is public.
 - CORS restricted to the deployed PWA origin and explicitly configured local development origins.
@@ -146,4 +146,4 @@ If the product later supports many households, account identity, sharing, or hig
 - Neon PostgreSQL rather than AWS RDS for the MVP.
 - Separate frontend and API repositories.
 - Online-only PWA behavior; no offline synchronization.
-- Shared passphrase with one-day signed JWT sessions; no account system.
+- Shared four-digit PIN with one-day signed JWT sessions; no account system.

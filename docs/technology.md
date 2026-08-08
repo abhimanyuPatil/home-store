@@ -18,9 +18,9 @@ The MVP uses a separate React PWA repository and Node.js API repository. The API
 | Database | PostgreSQL on Neon | Relational constraints fit the location/subsection and primary/backup assignment model. Neon provides usage-based compute, scale-to-zero behavior, and serverless connection support. |
 | Local database | PostgreSQL on the developer machine | Local development uses serverless-offline for Lambda behavior and local PostgreSQL for persistence. No separate development Neon database is maintained. |
 | Database access | Typed relational data-access layer and migrations in the API repository | Keeps relationships, constraints, and schema changes explicit without coupling the product design to a particular ORM. |
-| Authentication | Shared household passphrase producing a signed JWT | Provides a lightweight access gate without introducing accounts, users, roles, or password recovery. |
+| Authentication | Shared four-digit household PIN producing a signed JWT | Provides a lightweight MVP access gate without introducing accounts, users, roles, or password recovery. |
 | Token lifetime | One day | Avoids repeated entry during normal household use while limiting the lifetime of a leaked token. |
-| Token persistence | Frontend local storage | Persists the session across browser refreshes as requested. The passphrase is never persisted. |
+| Token persistence | Frontend local storage | Persists the session across browser refreshes as requested. The PIN is never persisted. |
 | Cache | None | MVP data volume and query patterns do not justify a separate cache. |
 | Queue/background jobs | None | The MVP has no asynchronous workflows, notifications, or scheduled processing. |
 | Search | PostgreSQL supply-name search | Search is limited to supply names and does not require a separate search engine. |
@@ -36,7 +36,7 @@ The MVP uses a separate React PWA repository and Node.js API repository. The API
 - The deployed environment uses Neon PostgreSQL.
 - Production secrets are configured in deployment environments, not committed to either repository.
 - The frontend receives the API base URL and public configuration only.
-- The backend receives the database URL, passphrase hash or secret, JWT signing secret, allowed frontend origin, and operational configuration.
+- The backend receives the database URL, four-digit PIN, JWT signing secret, allowed frontend origin, and operational configuration.
 
 ## Cost and Hosting Rationale
 

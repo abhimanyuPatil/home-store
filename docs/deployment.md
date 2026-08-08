@@ -40,7 +40,7 @@ The backend remains one modular monolith and one Lambda function. The frontend r
 | Infrastructure/deployment tool | Serverless Framework v4                                  |
 | Database                       | Neon PostgreSQL                                          |
 | Backend repository             | Separate repository from the frontend                    |
-| Authentication                 | Shared passphrase producing a one-day signed JWT         |
+| Authentication                 | Shared four-digit PIN producing a one-day signed JWT    |
 | Frontend API configuration     | Public `VITE_API_BASE_URL` build variable                |
 | Database migrations            | Versioned SQL migrations owned by the backend repository |
 | CI/CD                          | GitHub-based; pipeline implementation is a follow-up     |
@@ -167,12 +167,12 @@ The Lambda environment must contain:
 | `NODE_ENV`                  | Deployment configuration      | No                         |
 | `DATABASE_URL`              | Neon pooled connection secret | Yes                        |
 | `JWT_SECRET`                | Secret manager                | Yes                        |
-| `HOUSEHOLD_PASSPHRASE_HASH` | Secret manager                | Yes                        |
+| `HOUSEHOLD_PIN`             | GitHub production secret     | Yes                        |
 | `ALLOWED_ORIGINS`           | Deployment configuration      | No, but security-sensitive |
 | `FRONTEND_ORIGIN`           | Deployment configuration      | No                         |
 
 
-Use a managed secret store or encrypted parameter store for sensitive values. The deployment role should read only the parameters needed for this service. Do not put the passphrase, hash, JWT secret, or Neon connection string in `serverless.yml`, GitHub workflow YAML, logs, or command-line arguments captured by CI.
+Use a managed secret store or encrypted parameter store for sensitive values. The deployment role should read only the parameters needed for this service. The four-digit PIN is held as an encrypted GitHub secret and deployed only to Lambda. Never print it or expose it to Vercel. Do not put the PIN, JWT secret, or Neon connection string in logs or command-line arguments captured by CI.
 
 The existing `serverless.yml` resolves values from deployment environment variables. Before pipeline implementation, choose one controlled injection method—GitHub Actions environment injection from a protected secret store, or Serverless/CloudFormation references to encrypted AWS parameters—and use it consistently for every production deployment.
 
@@ -233,7 +233,7 @@ The only required frontend deployment variable is:
 VITE_API_BASE_URL=https://<api-gateway-domain>/api/v1
 ```
 
-Configure it separately for Development, Preview, and Production. Vite variables prefixed with `VITE_` are embedded into the browser bundle and must be treated as public. Never add database URLs, JWT secrets, passphrases, AWS credentials, or private deployment tokens to Vercel frontend variables.
+Configure it separately for Development, Preview, and Production. Vite variables prefixed with `VITE_` are embedded into the browser bundle and must be treated as public. Never add database URLs, JWT secrets, PINs, AWS credentials, or private deployment tokens to Vercel frontend variables.
 
 Vercel environment variable changes apply to new deployments, so trigger a new deployment after changing the API URL. See [Vercel environment variables](https://vercel.com/docs/environment-variables).
 
@@ -247,7 +247,7 @@ After deployment, verify:
 - The service worker registers in a production browser context.
 - The PWA is installable in a supported browser.
 - API calls use HTTPS and the production API URL.
-- No API secrets or passphrase values appear in the generated bundle.
+- No API secrets or PIN values appear in the generated bundle.
 
 If direct route refreshes fail, configure Vercel's SPA fallback/rewrite to serve `index.html` for application routes while preserving static asset paths.
 
@@ -278,7 +278,7 @@ Database migrations must be backward-compatible with the old application before 
 - No secrets are present in artifacts or logs.
 - Migration plan is reviewed when SQL changes are present.
 - Production CORS and API URL values are confirmed.
-- Smoke test credentials are available without exposing the real passphrase in logs.
+- Smoke test credentials are available without exposing the real PIN in logs.
 - Rollback target and owner are identified before deployment.
 
 
@@ -309,9 +309,9 @@ When a release includes frontend, backend, and schema changes, the schema must s
 - Prefer GitHub Actions OIDC with a narrowly scoped trust policy instead of static AWS keys.
 - Restrict deployment permissions to the `home-store` service and `ap-south-1` where practical.
 - Restrict Lambda runtime permissions to logs and required secret reads.
-- Rotate `JWT_SECRET`, the passphrase verifier, and the Neon database credential through a controlled release.
+- Rotate `JWT_SECRET`, the configured PIN, and the Neon database credential through a controlled release.
 - After JWT secret rotation, expect all existing sessions to become invalid.
-- Keep the shared passphrase out of frontend, GitHub, Vercel, and CloudWatch logs.
+- Keep the shared PIN out of frontend, Vercel, and CloudWatch logs; store it only as a protected GitHub secret.
 - Restrict CORS to known frontend origins.
 - Keep dependency and secret scanning in CI.
 - Use HTTPS for Vercel, API Gateway, and Neon connections.
@@ -393,7 +393,7 @@ Every incident investigation should record:
 
 ### Suspected credential compromise
 
-1. Rotate the affected Neon credential, JWT secret, or passphrase verifier.
+1. Rotate the affected Neon credential, JWT secret, or configured PIN.
 2. Redeploy the backend with the new secret.
 3. Confirm old JWTs are rejected when the signing secret changes.
 4. Review CloudWatch, GitHub, Vercel, and Neon access logs.
@@ -431,7 +431,7 @@ This document intentionally does not add or modify deployment pipelines. The nex
 - [x] Neon pooled connection string tested from the migration runner.
 - [x] Initial schema migration applied successfully.
 - [ ] Migration runner hardened for multiple versions.
-- [x] AWS deployment identity configured for Serverless Framework v4.
+- [ ] AWS deployment identity configured for Serverless Framework v4.
 - [x] AWS secret values configured.
 - [ ] Backend deployed in `ap-south-1`.
 - [ ] API Gateway URL recorded.
@@ -443,3 +443,7 @@ This document intentionally does not add or modify deployment pipelines. The nex
 - [ ] PWA installability and direct route refresh verified.
 - [ ] CloudWatch logs and initial alarms confirmed.
 - [ ] Previous backend and frontend deployments identified for rollback.
+
+### Authentication configuration note
+
+The MVP uses a four-digit `HOUSEHOLD_PIN`. GitHub Actions passes this protected secret to the backend deployment, and the Lambda environment receives the same value as `HOUSEHOLD_PIN`. The session request field is `pin`; no passphrase hash generation is required.

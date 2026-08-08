@@ -22,7 +22,7 @@ Request:
 
 ```json
 {
-  "passphrase": "shared-household-passphrase"
+  "pin": "1234"
 }
 ```
 
@@ -35,7 +35,7 @@ Response `200`:
 }
 ```
 
-The backend validates the passphrase against its configured verifier and issues a signed JWT with a one-day expiry. The passphrase must not be logged. Failed attempts receive a generic authentication error and are subject to rate limiting.
+The backend validates the four-digit PIN against its configured value and issues a signed JWT with a one-day expiry. The PIN must not be logged. Failed attempts receive a generic authentication error and are subject to rate limiting.
 
 ### Authenticated request
 
@@ -265,13 +265,13 @@ Errors use a stable envelope:
 Expected status categories:
 
 - `400`: malformed request or invalid field values.
-- `401`: missing, expired, or invalid JWT, or invalid passphrase.
+- `401`: missing, expired, or invalid JWT, or invalid PIN.
 - `404`: referenced resource does not exist.
 - `409`: uniqueness conflict, invalid reassignment conflict, or missing backup assignment.
 - `429`: session endpoint rate limit exceeded.
 - `500`: unexpected server or database failure.
 
-Internal SQL, credentials, stack traces, and passphrase comparison details must never be returned to the client.
+Internal SQL, credentials, stack traces, and PIN comparison details must never be returned to the client.
 
 ## API Invariants
 
