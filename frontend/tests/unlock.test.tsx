@@ -11,7 +11,7 @@ const token = (expiry: number) => {
 };
 
 describe('unlock flow', () => {
-  it('persists a successful session without persisting the passphrase', async () => {
+  it('persists a successful session without persisting the PIN', async () => {
     const fetchMock = vi.spyOn(globalThis, 'fetch').mockResolvedValue(
       new Response(
         JSON.stringify({ token: token(Date.now() / 1000 + 86400) }),
@@ -29,19 +29,19 @@ describe('unlock flow', () => {
       </AuthProvider>,
     );
 
-    await user.type(screen.getByLabelText('Passphrase'), 'family-secret');
+    await user.type(screen.getByLabelText('PIN'), '1234');
     await user.click(screen.getByRole('button', { name: /unlock app/i }));
 
     expect(fetchMock).toHaveBeenCalledWith(
       expect.stringContaining('/session'),
       expect.objectContaining({
-        body: JSON.stringify({ passphrase: 'family-secret' }),
+        body: JSON.stringify({ pin: '1234' }),
       }),
     );
     expect(localStorage.getItem('home-store-session-token')).toContain(
       'header.',
     );
-    expect(localStorage.getItem('family-secret')).toBeNull();
+    expect(localStorage.getItem('1234')).toBeNull();
     fetchMock.mockRestore();
   });
 
@@ -62,7 +62,7 @@ describe('unlock flow', () => {
       </AuthProvider>,
     );
 
-    await user.type(screen.getByLabelText('Passphrase'), 'wrong-secret');
+    await user.type(screen.getByLabelText('PIN'), '9999');
     await user.click(screen.getByRole('button', { name: /unlock app/i }));
 
     expect(await screen.findByRole('alert')).toHaveTextContent(

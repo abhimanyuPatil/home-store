@@ -67,10 +67,10 @@ export const createApiClient = (
     });
 
   return {
-    createSession: async (passphrase: string) =>
+    createSession: async (pin: string) =>
       request<{ token: string; expiresAt: string }>('/session', {
         method: 'POST',
-        body: JSON.stringify({ passphrase }),
+        body: JSON.stringify({ pin }),
       }),
     listLocations: () => request<Location[]>('/locations'),
     createLocation: (name: string) =>

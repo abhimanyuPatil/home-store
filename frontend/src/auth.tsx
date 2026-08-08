@@ -30,7 +30,7 @@ const validToken = (token: string | null) => {
 type AuthContextValue = {
   token: string | null;
   isAuthenticated: boolean;
-  signIn: (passphrase: string) => Promise<void>;
+  signIn: (pin: string) => Promise<void>;
   signOut: () => void;
 };
 
@@ -44,13 +44,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return null;
   });
 
-  const signIn = useCallback(async (passphrase: string) => {
+  const signIn = useCallback(async (pin: string) => {
     const response = await fetch(
       `${(import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:3000/api/v1').replace(/\/$/, '')}/session`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ passphrase }),
+        body: JSON.stringify({ pin }),
       },
     );
     const body = (await response.json().catch(() => ({}))) as {

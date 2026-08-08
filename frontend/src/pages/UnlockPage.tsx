@@ -5,7 +5,7 @@ import { useAuth } from '../auth';
 
 export const UnlockPage = () => {
   const { signIn } = useAuth();
-  const [passphrase, setPassphrase] = useState('');
+  const [pin, setPin] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -14,7 +14,7 @@ export const UnlockPage = () => {
     setLoading(true);
     setError('');
     try {
-      await signIn(passphrase);
+      await signIn(pin);
     } catch (requestError) {
       setError(
         requestError instanceof Error
@@ -43,21 +43,24 @@ export const UnlockPage = () => {
             Unlock your store
           </h1>
           <p className="mt-2 text-sm leading-6 text-slate">
-            Enter the shared household passphrase to continue.
+            Enter the four-digit household PIN to continue.
           </p>
         </div>
         <form className="mt-7 space-y-5" onSubmit={submit}>
           <div>
-            <label className="label" htmlFor="passphrase">
-              Passphrase
+            <label className="label" htmlFor="pin">
+              PIN
             </label>
             <input
-              id="passphrase"
+              id="pin"
               className="field"
               type="password"
-              value={passphrase}
-              onChange={(event) => setPassphrase(event.target.value)}
-              autoComplete="current-password"
+              inputMode="numeric"
+              pattern="[0-9]{4}"
+              maxLength={4}
+              value={pin}
+              onChange={(event) => setPin(event.target.value)}
+              autoComplete="one-time-code"
               required
               autoFocus
             />
