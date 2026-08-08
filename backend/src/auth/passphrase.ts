@@ -7,7 +7,5 @@ export const verifyPin = (pin: string): boolean => {
 
   const actual = Buffer.from(pin);
   const expected = Buffer.from(configuredPin);
-  return (
-    actual.length === expected.length && timingSafeEqual(actual, expected)
-  );
+  return actual.length === expected.length && timingSafeEqual(actual, expected);
 };
