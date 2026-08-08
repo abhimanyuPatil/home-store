@@ -1,3 +1,5 @@
+org: bizecho
+app: home-store
 service: home-store-api
 
 frameworkVersion: '4'
