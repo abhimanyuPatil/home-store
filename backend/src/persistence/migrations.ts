@@ -81,8 +81,6 @@ export const migrate = async (): Promise<void> => {
         throw error;
       }
     }
-  } catch (error) {
-    throw error;
   } finally {
     await client.query('SELECT pg_advisory_unlock(hashtext($1))', [
       migrationLockKey,
