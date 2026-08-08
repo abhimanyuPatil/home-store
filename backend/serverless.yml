@@ -9,6 +9,7 @@ provider:
   runtime: nodejs20.x
   region: ap-south-1
   httpApi:
+    payload: '2.0'
     cors:
       allowedOrigins:
         - ${env:FRONTEND_ORIGIN, 'http://localhost:5173'}
