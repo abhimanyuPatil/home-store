@@ -16,4 +16,7 @@ export const validateProductionConfig = (): void => {
   if (!/^\d{4}$/.test(process.env.HOUSEHOLD_PIN ?? '')) {
     throw new Error('HOUSEHOLD_PIN must contain exactly four digits.');
   }
+  if ((process.env.JWT_SECRET ?? '').length < 32) {
+    throw new Error('JWT_SECRET must be at least 32 characters.');
+  }
 };

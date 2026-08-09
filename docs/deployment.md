@@ -171,6 +171,11 @@ The Lambda environment must contain:
 | `ALLOWED_ORIGINS`           | Deployment configuration      | No, but security-sensitive |
 | `FRONTEND_ORIGIN`           | Deployment configuration      | No                         |
 
+`JWT_SECRET` must be at least 32 characters long. Generate a value with
+`openssl rand -base64 32` and store it as the protected `JWT_SECRET` deployment
+secret. Do not use the placeholder from `backend/.env.example` in production.
+Changing this secret invalidates all existing session tokens.
+
 
 Use a managed secret store or encrypted parameter store for sensitive values. The deployment role should read only the parameters needed for this service. The four-digit PIN is held as an encrypted GitHub secret and deployed only to Lambda. Never print it or expose it to Vercel. Do not put the PIN, JWT secret, or Neon connection string in logs or command-line arguments captured by CI.
 
