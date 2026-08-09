@@ -7,7 +7,9 @@ import { APIGatewayProxyEventV2, Context } from 'aws-lambda';
 validateProductionConfig();
 const app = createApp();
 
-const serverlessHandler = serverless(app);
+const serverlessHandler = serverless(app, {
+  request: { source: 'AWS_API_GATEWAY_V2' },
+});
 
 export const handler = (event: APIGatewayProxyEventV2, context: Context) => {
   console.info(JSON.stringify({ event: 'lambda_raw_full', payload: event }));
