@@ -20,6 +20,7 @@ authRouter.post(
   '/session',
   createRateLimiter(windowMs, maxAttempts),
   asyncRoute(async (request, response) => {
+    console.info('request', JSON.stringify(request));
     const pin = request.body?.pin;
 
     console.info(

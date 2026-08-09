@@ -57,10 +57,6 @@ export const createApp = () => {
     }
     next();
   });
-  // Add this — stops OPTIONS before any router sees it
-  app.options('*', (_request, response) => {
-    response.status(204).send();
-  });
   app.use('/api/v1', authRouter);
   app.use('/api/v1', requireAuth, storageRouter);
   app.use('/api/v1', requireAuth, suppliesRouter);
