@@ -155,7 +155,7 @@ Serverless Framework should manage the following resources in `ap-south-1`:
 - Deployment artifacts and the Serverless deployment bucket.
 - Optional alarms and notification integrations added as operational maturity increases.
 
-The current backend configuration uses Node.js 20, API Gateway HTTP API, CORS, and the compiled handler at `dist/src/handler.handler`.
+The current backend configuration uses Node.js 20, Express 4, `serverless-http` 3.x, API Gateway HTTP API, CORS, and the compiled handler at `dist/src/handler.handler`. Express 4 is intentional because the adapter has known Express 5 compatibility concerns; do not upgrade the Express major version without validating the Lambda adapter and API smoke tests.
 
 ### 6.2 Backend production configuration
 

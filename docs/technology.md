@@ -11,7 +11,7 @@ The MVP uses a separate React PWA repository and Node.js API repository. The API
 | Frontend | React with TypeScript | Matches the product's interactive CRUD and filtered inventory experience while providing a shared type-safe language with the API. |
 | PWA | Web app manifest and service-worker-based installability | Provides installability and responsive application behavior. Offline synchronization is not an MVP requirement. |
 | Frontend hosting | Vercel | Suits a static/client-rendered React PWA and provides simple repository-based deployments. |
-| Backend | Node.js with TypeScript and Express | Low operational overhead, good fit for the small REST API, and consistent language/tooling with the frontend. |
+| Backend | Node.js with TypeScript and Express 4 | Low operational overhead, good fit for the small REST API, and consistent language/tooling with the frontend. Express 4 is retained for compatibility with the `serverless-http` adapter. |
 | Compute | AWS Lambda | API usage is intermittent and speed is not a primary MVP concern; pay-per-use execution avoids an always-running server. |
 | API gateway | AWS API Gateway HTTP API | Provides an HTTP entry point for the Lambda API with a lower-complexity, usage-based gateway model. |
 | API style | Versioned REST/JSON | The domain consists of conventional CRUD resources and filtered inventory queries; REST keeps the client/server boundary straightforward. |
